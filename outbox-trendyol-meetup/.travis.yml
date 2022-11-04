@@ -1,0 +1,22 @@
+language: java
+
+notifications:
+  email: enes.acikoglu@gmail.com
+
+before_install:
+  - chmod +x mvnw
+
+# git strips the wrapper jar file so we have to force its download during the build
+install:
+- mvn -N io.takari:maven:wrapper
+- ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+# whitelist
+branches:
+  only:
+    - develop
+    - master
+    - /^issue-.*$/
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
